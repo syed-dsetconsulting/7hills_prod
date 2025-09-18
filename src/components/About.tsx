@@ -68,7 +68,7 @@ const About: React.FC = () => {
         {/* Header Section */}
         <div className="section-header">
           <div className="section-tag">About Us</div>
-          <h2 className="section-title">Powering India's Steel Industry</h2>
+          <h2 className="section-title">Powering India&apos;s Steel Industry</h2>
           <p className="section-subtitle">
             From the mineral-rich heartland of Odisha, we deliver excellence in iron ore extraction 
             and logistics, partnering with industry leaders to build a sustainable future.
@@ -165,7 +165,7 @@ const About: React.FC = () => {
                 
                 <div className="story-growth">
                   <p>
-                    Over the years, we've grown from a regional supplier into a company with a <strong>strong global footprint</strong>. 
+                    Over the years, we&apos;ve grown from a regional supplier into a company with a <strong>strong global footprint</strong>. 
                     Today, we are proud to partner with some of the most respected names in the industry, including 
                     <span className="partner-highlight"> JSW Ispat Special Products Ltd</span>, 
                     <span className="partner-highlight"> Bhushan Power and Steel Ltd</span>, 
@@ -181,7 +181,7 @@ const About: React.FC = () => {
                     Behind this success is our strong foundation—<strong>modern mining infrastructure</strong>, 
                     <strong>advanced processing units</strong>, and a <strong>robust logistics network</strong> that ensures 
                     efficiency and timely delivery at every step. Compliance with environmental and industry regulations 
-                    isn't just a requirement for us—<em>it's at the core of who we are</em>.
+                    isn&apos;t just a requirement for us—<em>it&apos;s at the core of who we are</em>.
                   </p>
                 </div>
                 
@@ -223,7 +223,7 @@ const About: React.FC = () => {
               </div>
               <h4>Our Mission</h4>
               <p>
-                To be India's most trusted mining partner, delivering sustainable extraction solutions 
+                To be India&apos;s most trusted mining partner, delivering sustainable extraction solutions 
                 while maintaining the highest standards of safety, quality, and environmental responsibility.
               </p>
             </div>
@@ -237,7 +237,7 @@ const About: React.FC = () => {
               </div>
               <h4>Our Vision</h4>
               <p>
-                Leading the transformation of India's mining industry through innovative practices, 
+                Leading the transformation of India&apos;s mining industry through innovative practices, 
                 technology adoption, and stakeholder-first approach.
               </p>
             </div>

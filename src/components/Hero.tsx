@@ -1,5 +1,4 @@
 import { FormEvent, useState } from 'react';
-import Image from 'next/image';
 
 const Hero: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);

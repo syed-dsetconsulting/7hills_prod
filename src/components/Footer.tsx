@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
                 Sustainable Mining • Reliable Delivery
               </p>
               <p className="footer-description">
-                India's trusted partner for iron ore, bauxite, manganese & limestone extraction with end-to-end logistics solutions.
+                India&apos;s trusted partner for iron ore, bauxite, manganese & limestone extraction with end-to-end logistics solutions.
               </p>
             </div>
             
