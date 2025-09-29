@@ -18,12 +18,12 @@ const Hero: React.FC = () => {
       
       // Template parameters for Quick Quote
       const templateParams = {
-        from_name: formObject.name,
-        from_email: formObject.email,
+        from_name: String(formObject.name || ''),
+        from_email: String(formObject.email || ''),
         company: 'Quick Quote Request',
-        phone: formObject.phone,
-        material: formObject.material,
-        quantity: formObject.quantity || 'Not specified',
+        phone: String(formObject.phone || ''),
+        material: String(formObject.material || ''),
+        quantity: String(formObject.quantity || 'Not specified'),
         requirements: 'Quick Quote Request - No additional requirements provided',
         to_email: EMAIL_CONFIG.productionEmail,
         submission_date: new Date().toLocaleString(),
@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
         throw new Error('Failed to send email');
       }
       
-    } catch (error) {
+    } catch {
       alert("❌ There was an error sending your quote request. Please try again or contact us directly.");
     } finally {
       setIsSubmitting(false);

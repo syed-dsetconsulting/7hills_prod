@@ -9,7 +9,7 @@ export const EMAIL_CONFIG = {
 };
 
 // EmailJS utility function
-export const sendEmail = async (templateParams: any) => {
+export const sendEmail = async (templateParams: Record<string, string | number>) => {
   const { serviceId, templateId, publicKey } = EMAIL_CONFIG;
   
   try {

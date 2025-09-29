@@ -19,13 +19,13 @@ const Contact: React.FC = () => {
       
       // Template parameters
       const templateParams = {
-        from_name: formObject.fullName,
-        from_email: formObject.email,
-        company: formObject.company,
-        phone: formObject.phone,
-        material: formObject.material,
-        quantity: formObject.quantity,
-        requirements: formObject.requirements,
+        from_name: String(formObject.fullName || ''),
+        from_email: String(formObject.email || ''),
+        company: String(formObject.company || ''),
+        phone: String(formObject.phone || ''),
+        material: String(formObject.material || ''),
+        quantity: String(formObject.quantity || ''),
+        requirements: String(formObject.requirements || ''),
         to_email: EMAIL_CONFIG.productionEmail,
         submission_date: new Date().toLocaleString(),
         form_type: 'Detailed Contact Form'
@@ -42,7 +42,7 @@ const Contact: React.FC = () => {
         throw new Error('Failed to send email');
       }
       
-    } catch (error) {
+    } catch {
       alert("❌ There was an error sending your message. Please try again or contact us directly.");
     } finally {
       setIsSubmitting(false);
