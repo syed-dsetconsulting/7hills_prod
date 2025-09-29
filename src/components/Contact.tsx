@@ -1,22 +1,54 @@
 import { FormEvent, useState } from "react";
+import { EMAIL_CONFIG, sendEmail } from '../utils/emailConfig';
 
 const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStep, setFormStep] = useState(1);
   
-  const handleContactForm = (e: FormEvent<HTMLFormElement>) => {
+  const handleContactForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    // Store form reference before async operation
+    const form = e.currentTarget;
+    
+    try {
+      // Option 1: EmailJS (Recommended)
+      const formData = new FormData(form);
+      const formObject = Object.fromEntries(formData.entries());
+      
+      // Template parameters
+      const templateParams = {
+        from_name: formObject.fullName,
+        from_email: formObject.email,
+        company: formObject.company,
+        phone: formObject.phone,
+        material: formObject.material,
+        quantity: formObject.quantity,
+        requirements: formObject.requirements,
+        to_email: EMAIL_CONFIG.productionEmail,
+        submission_date: new Date().toLocaleString(),
+        form_type: 'Detailed Contact Form'
+      };
+      
+      // Send email using shared utility
+      const result = await sendEmail(templateParams);
+      
+      if (result.success) {
+        alert("🚀 Your inquiry has been sent successfully! We'll get back to you within 24 hours.");
+        form.reset();
+        setFormStep(1);
+      } else {
+        throw new Error('Failed to send email');
+      }
+      
+    } catch (error) {
+      alert("❌ There was an error sending your message. Please try again or contact us directly.");
+    } finally {
       setIsSubmitting(false);
-      alert("🚀 Your detailed inquiry has been submitted successfully!");
-      e.currentTarget.reset();
-      setFormStep(1);
-    }, 1500);
+    }
   };
-  
+
   const nextStep = (e: React.MouseEvent) => {
     e.preventDefault();
     setFormStep(2);
@@ -50,7 +82,11 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <h3>Head Office</h3>
-                <p>Bengaluru, Karnataka, India</p>
+                <p>
+                  KHATA NO 130/63, SUNDRA,<br />
+                  UNIT NO 12, STATION ROAD,<br />
+                  Barbil, Kendujhar, Odisha, 758035
+                </p>
               </div>
             </div>
 
@@ -62,8 +98,11 @@ const Contact: React.FC = () => {
                 </svg>
               </div>
               <div>
-                <h3>Business Inquiries</h3>
-                <p>sales@sevenhillsminerals.com</p>
+                <h3>Email Addresses</h3>
+                <p>
+                  sevenpvtltd@gmail.com<br />
+                  info@sevenhillsminerals.com
+                </p>
               </div>
             </div>
 
@@ -74,8 +113,8 @@ const Contact: React.FC = () => {
                 </svg>
               </div>
               <div>
-                <h3>Emergency Hotline</h3>
-                <p>+91-XXXX-XXXX (24/7 Support)</p>
+                <h3>Phone Support</h3>
+                <p>Contact us via email for immediate assistance</p>
               </div>
             </div>
             
@@ -118,22 +157,22 @@ const Contact: React.FC = () => {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="fullName">Full Name*</label>
-                    <input id="fullName" type="text" className="form-input" required />
+                    <input id="fullName" name="fullName" type="text" className="form-input" required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="company">Company*</label>
-                    <input id="company" type="text" className="form-input" required />
+                    <input id="company" name="company" type="text" className="form-input" required />
                   </div>
                 </div>
 
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="email">Email Address*</label>
-                    <input id="email" type="email" className="form-input" required />
+                    <input id="email" name="email" type="email" className="form-input" required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="phone">Phone Number*</label>
-                    <input id="phone" type="tel" className="form-input" required />
+                    <input id="phone" name="phone" type="tel" className="form-input" required />
                   </div>
                 </div>
                 
@@ -151,7 +190,7 @@ const Contact: React.FC = () => {
               <div className={`form-step ${formStep === 2 ? 'active' : 'inactive'}`}>
                 <div className="form-group">
                   <label htmlFor="material">Material Required*</label>
-                  <select id="material" className="form-select" required>
+                  <select id="material" name="material" className="form-select" required>
                     <option value="">Select material type</option>
                     <option value="iron-ore">Iron Ore (+62% Fe)</option>
                     <option value="bauxite">Bauxite</option>
@@ -163,13 +202,14 @@ const Contact: React.FC = () => {
 
                 <div className="form-group">
                   <label htmlFor="quantity">Quantity & Timeline</label>
-                  <input id="quantity" type="text" className="form-input" placeholder="e.g., 5000 MT by Q3 2025" />
+                  <input id="quantity" name="quantity" type="text" className="form-input" placeholder="e.g., 5000 MT by Q3 2025" />
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="requirements">Additional Requirements</label>
                   <textarea
                     id="requirements"
+                    name="requirements"
                     className="form-input"
                     rows={4}
                     placeholder="Tell us more about your specific needs..."

@@ -1,18 +1,50 @@
 import { FormEvent, useState } from 'react';
+import { EMAIL_CONFIG, sendEmail } from '../utils/emailConfig';
 
 const Hero: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleQuickQuote = (e: FormEvent<HTMLFormElement>) => {
+  const handleQuickQuote = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    // Store form reference before async operation
+    const form = e.currentTarget;
+    
+    try {
+      // Get form data
+      const formData = new FormData(form);
+      const formObject = Object.fromEntries(formData.entries());
+      
+      // Template parameters for Quick Quote
+      const templateParams = {
+        from_name: formObject.name,
+        from_email: formObject.email,
+        company: 'Quick Quote Request',
+        phone: formObject.phone,
+        material: formObject.material,
+        quantity: formObject.quantity || 'Not specified',
+        requirements: 'Quick Quote Request - No additional requirements provided',
+        to_email: EMAIL_CONFIG.productionEmail,
+        submission_date: new Date().toLocaleString(),
+        form_type: 'Quick Quote Request'
+      };
+      
+      // Send email using shared utility
+      const result = await sendEmail(templateParams);
+      
+      if (result.success) {
+        alert("🚀 Your quote request has been sent successfully! We'll get back to you within 24 hours.");
+        form.reset();
+      } else {
+        throw new Error('Failed to send email');
+      }
+      
+    } catch (error) {
+      alert("❌ There was an error sending your quote request. Please try again or contact us directly.");
+    } finally {
       setIsSubmitting(false);
-      alert("🎉 Thank you! Your quote request has been received.");
-      e.currentTarget.reset();
-    }, 1000);
+    }
   };
 
   return (
@@ -117,22 +149,22 @@ const Hero: React.FC = () => {
           <form onSubmit={handleQuickQuote}>
             <div className="form-group">
               <label htmlFor="name">Your Name</label>
-              <input id="name" type="text" className="form-input" placeholder="Enter your full name" required />
+              <input id="name" name="name" type="text" className="form-input" placeholder="Enter your full name" required />
             </div>
             
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
-              <input id="email" type="email" className="form-input" placeholder="your@email.com" required />
+              <input id="email" name="email" type="email" className="form-input" placeholder="your@email.com" required />
             </div>
             
             <div className="form-group">
               <label htmlFor="phone">Phone Number</label>
-              <input id="phone" type="tel" className="form-input" placeholder="+91 XXXXX XXXXX" required />
+              <input id="phone" name="phone" type="tel" className="form-input" placeholder="+91 XXXXX XXXXX" required />
             </div>
             
             <div className="form-group">
               <label htmlFor="material">Material Required</label>
-              <select id="material" className="form-select" required>
+              <select id="material" name="material" className="form-select" required>
                 <option value="">Select material type</option>
                 <option value="iron-ore">Iron Ore</option>
                 <option value="bauxite">Bauxite</option>
@@ -143,7 +175,7 @@ const Hero: React.FC = () => {
             
             <div className="form-group">
               <label htmlFor="quantity">Quantity (MT)</label>
-              <input id="quantity" type="text" className="form-input" placeholder="Approximate quantity" />
+              <input id="quantity" name="quantity" type="text" className="form-input" placeholder="Approximate quantity" />
             </div>
             
             <button 

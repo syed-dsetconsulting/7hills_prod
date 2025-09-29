@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import About from '@/components/About';
+import ExportTimeline from '@/components/ExportTimeline';
 import Process from '@/components/Process';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -28,6 +29,7 @@ export default function Home() {
         <Hero />
         <Features />
         <About />
+        <ExportTimeline />
         <Process />
         <Contact />
       </main>
